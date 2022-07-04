@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuanLyTuyenSinh.Server", "Server\QuanLyTuyenSinh.Server.csproj", "{4E61B0B4-B7CD-486A-8BDC-47862E0CB794}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuanLyTuyenSinh.Server", "Server\QuanLyTuyenSinh.Server.csproj", "{4E61B0B4-B7CD-486A-8BDC-47862E0CB794}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuanLyTuyenSinh.Client", "Client\QuanLyTuyenSinh.Client.csproj", "{56C3F733-A650-4789-83D3-EA750E47F8F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuanLyTuyenSinh.Client", "Client\QuanLyTuyenSinh.Client.csproj", "{56C3F733-A650-4789-83D3-EA750E47F8F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuanLyTuyenSinh.Shared", "Shared\QuanLyTuyenSinh.Shared.csproj", "{8D2D698A-6A9E-42DC-9E5D-AB278199CDE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuanLyTuyenSinh.Shared", "Shared\QuanLyTuyenSinh.Shared.csproj", "{8D2D698A-6A9E-42DC-9E5D-AB278199CDE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,16 +10,19 @@ namespace QuanLyTuyenSinh.Server.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "HinhAnh",
+                name: "User",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    HocBa = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Roles = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HinhAnh", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -37,7 +40,7 @@ namespace QuanLyTuyenSinh.Server.Migrations
                     DoiTuong = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DiemUuTienDT = table.Column<int>(type: "int", nullable: false),
                     KhuVuc = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DiemUuTienKV = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DiemUuTienKV = table.Column<double>(type: "float", nullable: false),
                     KhoiXetTuyen = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Mon1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Mon2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -68,39 +71,68 @@ namespace QuanLyTuyenSinh.Server.Migrations
                     diem2 = table.Column<double>(type: "float", nullable: false),
                     diem3 = table.Column<double>(type: "float", nullable: false),
                     Tong = table.Column<double>(type: "float", nullable: false),
-                    Sdt = table.Column<int>(type: "int", nullable: false),
+                    Sdt = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Diachi = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ngaygui = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CBTuVan = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CBTuVan = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TrangThai = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreateDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HinhAnhId = table.Column<int>(type: "int", nullable: false)
+                    UpdateDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ThiSinh", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ThiSinh_HinhAnh_HinhAnhId",
-                        column: x => x.HinhAnhId,
-                        principalTable: "HinhAnh",
+                        name: "FK_ThiSinh_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HinhAnh",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ThiSinhId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HinhAnh", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HinhAnh_ThiSinh_ThiSinhId",
+                        column: x => x.ThiSinhId,
+                        principalTable: "ThiSinh",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ThiSinh_HinhAnhId",
+                name: "IX_HinhAnh_ThiSinhId",
+                table: "HinhAnh",
+                column: "ThiSinhId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ThiSinh_UserId",
                 table: "ThiSinh",
-                column: "HinhAnhId");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "HinhAnh");
+
+            migrationBuilder.DropTable(
                 name: "ThiSinh");
 
             migrationBuilder.DropTable(
-                name: "HinhAnh");
+                name: "User");
         }
     }
 }

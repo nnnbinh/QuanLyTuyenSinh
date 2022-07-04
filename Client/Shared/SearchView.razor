@@ -1,0 +1,17 @@
+﻿<th>
+    <div class="clo-10 row">
+        @ColumnTitle
+
+        <input class="form-control" placeholder="Search" @oninput="OnSearchTextChanged">
+        @*<button class="btn btn-outline-secondary" type="submit">Search</button>*@
+    </div
+</th>
+
+@code {
+    [Parameter]
+    public string ColumnTitle{ get; set; }
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnSearchTextChanged{ get; set; }
+}
+

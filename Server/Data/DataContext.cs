@@ -8,5 +8,6 @@
         }
         public DbSet<ThiSinh> ThiSinh { get; set; }
         public DbSet<HinhAnh> HinhAnh { get; set; }
+        public DbSet<User> User { get; set; }
     }
 }

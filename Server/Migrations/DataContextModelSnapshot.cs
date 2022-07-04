@@ -200,6 +200,9 @@ namespace QuanLyTuyenSinh.Server.Migrations
                     b.Property<DateTime>("UpdateDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<double>("diem1")
                         .HasColumnType("float");
 
@@ -211,18 +214,70 @@ namespace QuanLyTuyenSinh.Server.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("ThiSinh");
+                });
+
+            modelBuilder.Entity("QuanLyTuyenSinh.Shared.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Roles")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("QuanLyTuyenSinh.Shared.HinhAnh", b =>
                 {
                     b.HasOne("QuanLyTuyenSinh.Shared.ThiSinh", "ThiSinh")
-                        .WithMany()
+                        .WithMany("HinhAnhs")
                         .HasForeignKey("ThiSinhId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ThiSinh");
+                });
+
+            modelBuilder.Entity("QuanLyTuyenSinh.Shared.ThiSinh", b =>
+                {
+                    b.HasOne("QuanLyTuyenSinh.Shared.User", "User")
+                        .WithMany("ThiSinhs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("QuanLyTuyenSinh.Shared.ThiSinh", b =>
+                {
+                    b.Navigation("HinhAnhs");
+                });
+
+            modelBuilder.Entity("QuanLyTuyenSinh.Shared.User", b =>
+                {
+                    b.Navigation("ThiSinhs");
                 });
 #pragma warning restore 612, 618
         }
