@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuanLyTuyenSinh.Server.Data;
 
@@ -11,9 +12,10 @@ using QuanLyTuyenSinh.Server.Data;
 namespace QuanLyTuyenSinh.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220816024418_updateDatabase4")]
+    partial class updateDatabase4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,6 +59,7 @@ namespace QuanLyTuyenSinh.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CBTuVan")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cmnd")
@@ -239,29 +242,13 @@ namespace QuanLyTuyenSinh.Server.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("PasswordResetToken")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<DateTime?>("ResetTokenExpires")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Roles")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("TokenCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("TokenExpired")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("UpdatedDateTime")
                         .HasColumnType("datetime2");
@@ -270,11 +257,40 @@ namespace QuanLyTuyenSinh.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("VerifyAt")
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("QuanLyTuyenSinh.Shared.UserReg", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreateDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("VerifyResetAt")
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Roles")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDateTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VerifyToken")
                         .IsRequired()
@@ -282,7 +298,7 @@ namespace QuanLyTuyenSinh.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("UserReg");
                 });
 
             modelBuilder.Entity("QuanLyTuyenSinh.Shared.HinhAnh", b =>

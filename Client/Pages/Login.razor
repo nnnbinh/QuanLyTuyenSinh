@@ -3,14 +3,30 @@
 @inject AuthenticationStateProvider AuthStateProvider
 @inject ILocalStorageService LocalStorage
 @inject NavigationManager NavigationManager
-<h3>Just a login</h3>
 
 <EditForm Model="user" OnSubmit="HandleLogin">
-    <label for="username">Name</label>
-    <InputText id="username" @bind-Value="user.Username" />
-    <label for="password">Password</label>
-    <InputText id="password" @bind-Value="user.Password" type="password" />
-    <button type="submit" class="btn btn-primary">Login</button>
+     <div>
+        <br /><br /><br /><br /><br />
+    </div>
+    <div>
+        <h3 style="font-weight:bold; color:purple"> Login</h3>
+    </div>
+    <div>
+        <br />
+    </div>
+    <div class="col-12 row">
+        <input class="form-control col-12" @bind="user.Username" placeholder="username" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <input type="password" class="form-control col-12" @bind="user.Password" placeholder="password" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <span class="col-12"></span>
+        <input type="submit" class="form-control col-6 btn btn-primary" value="Login" />
+    </div>
+    <br />
 </EditForm>
 
 @code {
@@ -19,10 +35,17 @@
     async Task HandleLogin()
     {
         var result = await Http.PostAsJsonAsync("api/auth/login", user);
-        var token = await result.Content.ReadAsStringAsync();
-        Console.WriteLine(token);
-        await LocalStorage.SetItemAsync("token", token);
-        await AuthStateProvider.GetAuthenticationStateAsync();
-        NavigationManager.NavigateTo("/");
+        if(result.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            var token = await result.Content.ReadAsStringAsync();
+            Console.WriteLine(token);
+            await LocalStorage.SetItemAsync("token", token);
+            await AuthStateProvider.GetAuthenticationStateAsync();
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            Console.WriteLine("Sai thong tin");
+        }
     }
 }

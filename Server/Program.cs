@@ -3,6 +3,7 @@ global using Microsoft.EntityFrameworkCore;
 global using QuanLyTuyenSinh.Server.Data;
 global using QuanLyTuyenSinh.Server.Service.HinhAnhService;
 global using QuanLyTuyenSinh.Server.Service.UserService;
+global using QuanLyTuyenSinh.Server.Service.EmailService;
 global using QuanLyTuyenSinh.Server.Service;
 global using Microsoft.AspNetCore.Authorization;
 global using System.Text;
@@ -25,7 +26,10 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(build
 builder.Services.AddScoped<IHinhAnhService, HinhAnhService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTransient<IEmailSender, SendMailService>();
-
+builder.Services.AddCors(p => p.AddPolicy("corspolicy",build =>
+{
+    build.WithOrigins("https://localhost:7194/").AllowAnyMethod().AllowAnyHeader();
+}));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -67,7 +71,7 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseCors("corspolicy");
 app.UseHttpsRedirection();
 
 

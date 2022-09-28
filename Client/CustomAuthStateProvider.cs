@@ -1,6 +1,9 @@
-﻿using System.Net.Http.Headers;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Text;
 using System.Text.Json;
+
 
 namespace QuanLyTuyenSinh.Client
 {
@@ -21,14 +24,39 @@ namespace QuanLyTuyenSinh.Client
             var identity = new ClaimsIdentity();
 
             httpClient.DefaultRequestHeaders.Authorization = null;
+
             if (!string.IsNullOrEmpty(token)) 
             {
-                identity = new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt");
-                httpClient.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", token.Replace("\"",""));
+                var validator = new JwtSecurityTokenHandler();
+                var jwttoken = validator.ReadJwtToken(token.Replace("\"", ""));
+
+                if (DateTime.Compare(DateTime.Now, jwttoken.ValidTo.ToLocalTime()) < 0) { 
+                    identity = new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt");
+                
+                    httpClient.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", token.Replace("\"",""));
+                }
+                else
+                {
+                    string userId = jwttoken.Claims.First(claim => claim.Type == "UserId").Value;
+
+                    var result = await httpClient.PostAsJsonAsync("api/Auth/refresh", userId);
+                    if(result.StatusCode != System.Net.HttpStatusCode.OK)
+                    {
+                        Console.WriteLine(result.Content.ReadAsStringAsync());
+                        Console.WriteLine("toang");
+                    }
+                    else { 
+                        var newToken = await result.Content.ReadAsStringAsync();
+                        await localStorage.SetItemAsync("token", newToken);
+                        identity = new ClaimsIdentity(ParseClaimsFromJwt(newToken), "jwt");
+
+                        httpClient.DefaultRequestHeaders.Authorization =
+                            new AuthenticationHeaderValue("Bearer", token.Replace("\"", ""));
+                    }
+                }
             }
             var user = new ClaimsPrincipal(identity);
-            Console.WriteLine("user id: " + user.FindFirst("UserId").ToString());
             var state = new AuthenticationState(user);
 
             NotifyAuthenticationStateChanged(Task.FromResult(state));

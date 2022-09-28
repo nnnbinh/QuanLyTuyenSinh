@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuanLyTuyenSinh.Server.Data;
 
@@ -11,9 +12,10 @@ using QuanLyTuyenSinh.Server.Data;
 namespace QuanLyTuyenSinh.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220926063327_UpdateUser269")]
+    partial class UpdateUser269
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,6 +59,7 @@ namespace QuanLyTuyenSinh.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CBTuVan")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cmnd")

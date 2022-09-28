@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
-namespace QuanLyTuyenSinh.Server.Service
+namespace QuanLyTuyenSinh.Server.Service.EmailService
 {
     public class MailSettings
     {
@@ -21,16 +21,16 @@ namespace QuanLyTuyenSinh.Server.Service
     public class SendMailService : IEmailSender
     {
 
-        private readonly MailSettings mailSettings;
+        private readonly IConfiguration _configuration;
 
         private readonly ILogger<SendMailService> logger;
 
 
         // mailSetting được Inject qua dịch vụ hệ thống
         // Có inject Logger để xuất log
-        public SendMailService(IOptions<MailSettings> _mailSettings, ILogger<SendMailService> _logger)
+        public SendMailService(IConfiguration configuration, ILogger<SendMailService> _logger)
         {
-            mailSettings = _mailSettings.Value;
+            _configuration = configuration;
             logger = _logger;   
             logger.LogInformation("Create SendMailService");
         }
@@ -39,11 +39,10 @@ namespace QuanLyTuyenSinh.Server.Service
         {
             
             var message = new MimeMessage();
-            message.Sender = new MailboxAddress(mailSettings.DisplayName, mailSettings.Mail);
-            message.From.Add(new MailboxAddress(mailSettings.DisplayName, mailSettings.Mail));
+            message.Sender = new MailboxAddress(_configuration.GetSection("MailSettings:DisplayName").Value, _configuration.GetSection("MailSettings:Mail").Value);
+            message.From.Add(new MailboxAddress(_configuration.GetSection("MailSettings:DisplayName").Value, _configuration.GetSection("MailSettings:Mail").Value));
             message.To.Add(MailboxAddress.Parse(email));
             message.Subject = subject;
-
 
             var builder = new BodyBuilder();
             builder.HtmlBody = htmlMessage;
@@ -54,8 +53,8 @@ namespace QuanLyTuyenSinh.Server.Service
 
             try
             {
-                smtp.Connect(mailSettings.Host, mailSettings.Port, SecureSocketOptions.StartTls);
-                smtp.Authenticate(mailSettings.Mail, mailSettings.Password);
+                smtp.Connect(_configuration.GetSection("MailSettings:Host").Value, Int32.Parse(_configuration.GetSection("MailSettings:Port").Value), SecureSocketOptions.StartTls);
+                smtp.Authenticate(_configuration.GetSection("MailSettings:Mail").Value, _configuration.GetSection("MailSettings:Password").Value);
                 await smtp.SendAsync(message);
             }
             catch (Exception ex)

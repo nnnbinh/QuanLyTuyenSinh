@@ -99,7 +99,6 @@ namespace QuanLyTuyenSinh.Shared
         public string Diachi { get; set; } = "1";
 
         public DateTime Ngaygui { get; set; } = DateTime.Now;
-        [Required]
         public string? CBTuVan { get; set; } = "1";
         [Required]
         public string TrangThai { get; set; } = "1";
