@@ -28,7 +28,7 @@
         @foreach (var thish in onethisinh)
        {
             <tr>
-                <td>@thish.HoTen</td>
+                <td><a href=$"/thisinh/{thish.id}"   @onclick:preventDefault>@thish.HoTen</a></td>
                 <td>@thish.NgaySinh</td>
                 <td>@thish.BacHoc</td>
                 <td>@thish.MaNganhXetTuyen</td>

@@ -476,7 +476,6 @@ else
 		btnText = Id == null ? "Lưu Sinh Vien" : "Cập Nhật Sinh Viên";
 		btnDelete = Id == null ? "Cancel Thi Sinh" : "Delete Thi Sinh";
 		var auth = await authenticationState;
-		Console.WriteLine("UserId: "+auth.User.FindFirst("UserId").Value);
 		UserId = Int32.Parse(auth.User.FindFirst("UserId").Value);
 		await Sinhvientrungtuyen.Getthisinh();
 	}
@@ -548,7 +547,6 @@ else
 		public DateTime? datetime { get; set; }
 
 		public string nganh{ get; set; }
-
 	}
 
 	private void OnValidSubmit(EditContext context)

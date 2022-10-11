@@ -74,13 +74,13 @@ namespace QuanLyTuyenSinh.Shared
         [Required(ErrorMessage = "Vui lòng nhập điểm")]
         public double DiemTBPT2 { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập điểm")]
-        public double DiemTBPT3 { get; set; } = 1;
+        public double DiemTBPT3 { get; set; }
 
-        public string TruongTHPT { get; set; } = "1";
+        public string TruongTHPT { get; set; } = "";
 
-        public string HK11 { get; set; } = "1";
+        public string HK11 { get; set; } = "";
 
-        public string HK12 { get; set; } = "1";
+        public string HK12 { get; set; } = "";
 
         public int? MaDKXT { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập điểm")]
@@ -96,12 +96,12 @@ namespace QuanLyTuyenSinh.Shared
         [Required(ErrorMessage = "Vui lòng nhập email")]
         public string Email { get; set; }
         [Required]
-        public string Diachi { get; set; } = "1";
+        public string Diachi { get; set; } = "";
 
         public DateTime Ngaygui { get; set; } = DateTime.Now;
-        public string? CBTuVan { get; set; } = "1";
+        public string? CBTuVan { get; set; } = "";
         [Required]
-        public string TrangThai { get; set; } = "1";
+        public string TrangThai { get; set; } = "Pending";
 
         public DateTime CreateDateTime { get; set; } = DateTime.Now;
 

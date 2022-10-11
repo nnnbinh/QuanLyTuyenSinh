@@ -29,7 +29,7 @@ namespace QuanLyTuyenSinh.Server.Controllers
         {
             var result = _context.User.Include(ts => ts.ThiSinhs).FirstOrDefault(user => user.Id == thiSinhData.userId);
 
-            thiSinhData.images.ForEach(async item =>
+            thiSinhData.images.ForEach( item =>
 			{
 				HinhAnh image = new HinhAnh();
                 image.Image = item.anh;
@@ -43,6 +43,7 @@ namespace QuanLyTuyenSinh.Server.Controllers
 			await _context.SaveChangesAsync();
             return Ok(await GetDbThiSinh());
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ThiSinh>> GetThiSinh(int id)
         {
@@ -66,7 +67,7 @@ namespace QuanLyTuyenSinh.Server.Controllers
                 return NotFound("Không tìm thấy thí sinh");
             }
 
-			thiSinhData.images.ForEach(async item =>
+			thiSinhData.images.ForEach( item =>
 			{
                 if (item.status == 0) // moi
                 {
