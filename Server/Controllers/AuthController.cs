@@ -51,7 +51,7 @@ namespace QuanLyTuyenSinh.Server.Controllers
             userReg.VerifyToken = CreateRandomToken();
 
             var ip = HttpContext.Request.Host.Value;
-            string url = "https://" + ip + "/api/Auth/verify?token=" + userReg.VerifyToken;
+            string url = "http://" + ip + "/api/Auth/verify?token=" + userReg.VerifyToken;
 
             await sendMailService.SendEmailAsync(userReg.Username, "Xác nhận Đăng ký", "Verified at: " + url);
 

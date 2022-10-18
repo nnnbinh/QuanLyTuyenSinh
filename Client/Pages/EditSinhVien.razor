@@ -59,7 +59,7 @@ else
 		<div class="col-md-1"></div>
 		<div class="col-md-8">
 			<label for="inputEmail3" class="form-label">Họ và tên: (*)</label>
-				<InputText id="hoten" @bind-Value="thish.HoTen" class="form-control"></InputText>
+				<InputText id="hoten" @bind-Value="thish.HoTen" class="form-control" disabled="@IsDisable"></InputText>
 				<ValidationMessage For="()=>thish.HoTen"></ValidationMessage>
 		</div>
 		<div class="col-md-3"></div>
@@ -466,15 +466,16 @@ else
 
 	string btnText = string.Empty;
 	string btnDelete = string.Empty;
-
+	bool IsDisable = false;
 	ThiSinh thish = new ThiSinh();
 	List<AnhUpload> listAnhUpload = new List<AnhUpload>(); 
 
 
 	protected override async Task OnInitializedAsync()
 	{
-		btnText = Id == null ? "Lưu Sinh Vien" : "Cập Nhật Sinh Viên";
+		btnText = Id == null ? "Lưu Sinh Viên" : "Cập Nhật Sinh Viên";
 		btnDelete = Id == null ? "Cancel Thi Sinh" : "Delete Thi Sinh";
+		IsDisable = Id == null ? false : true;
 		var auth = await authenticationState;
 		UserId = Int32.Parse(auth.User.FindFirst("UserId").Value);
 		await Sinhvientrungtuyen.Getthisinh();

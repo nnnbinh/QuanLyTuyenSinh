@@ -4,6 +4,12 @@
 
 <h1>Hello, world!</h1>
 
-Welcome to your new app.
+<MudText Typo="Typo.h5" >RED </MudText>
+<MudChart ChartType="ChartType.Pie" InputData="@data" InputLabels="@label" Width="850" Height="350" LegendPosition="Position.Bottom"></MudChart>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code{
+
+    double[] data = { 1100, 650, 1700 };
+    string[] label = { "Red","Blue","Green"};
+
+}
