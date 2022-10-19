@@ -55,6 +55,19 @@ namespace QuanLyTuyenSinh.Server.Controllers
             }
             return Ok(result);
         }
+
+        [HttpGet("userItem/{userid}")]
+        public async Task<ActionResult<ThiSinh>> GetThiSinhByUser(int userid)
+        {
+            var result = await _context.ThiSinh.Include(ts => ts.HinhAnhs).Where(ts=> ts.User.Id==userid).ToListAsync();
+
+            if (result == null)
+            {
+                return NotFound("Không tìm thấy thí sinh");
+            }
+            return Ok(result);
+        }
+
         [HttpGet("data")]
         public ActionResult<double[]> GetDataChart()
         {
