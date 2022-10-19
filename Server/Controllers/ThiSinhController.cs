@@ -55,11 +55,23 @@ namespace QuanLyTuyenSinh.Server.Controllers
             }
             return Ok(result);
         }
+        [HttpGet("data")]
+        public ActionResult<double[]> GetDataChart()
+        {
+            var pending = _context.ThiSinh.Where(ts => ts.TrangThai == "Pending").Count();
+            var accept = _context.ThiSinh.Where(ts => ts.TrangThai == "Accepted").Count();
+            var reject = _context.ThiSinh.Where(ts => ts.TrangThai == "Rejected").Count();
+            List<double> result = new List<double>();
+            result.Add(pending);
+            result.Add(accept);
+            result.Add(reject);
+            return Ok(result);
+        }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<List<ThiSinh>>> UpdateThiSinh(ThiSinhData thiSinhData, int id)
+        public async Task<ActionResult<List<ThiSinh>>> UpdateThiSinh(ThiSinhData thiSinhData)
         {
-            var result = await _context.ThiSinh.Include(ts => ts.HinhAnhs).FirstOrDefaultAsync(ts => ts.Id == id);
+            var result = await _context.ThiSinh.Include(ts => ts.HinhAnhs).FirstOrDefaultAsync(ts => ts.Id == thiSinhData.thiSinh.Id);
             var user = _context.User.Include(ts => ts.ThiSinhs).FirstOrDefault(user => user.Id == thiSinhData.userId);
 
             if (result == null)

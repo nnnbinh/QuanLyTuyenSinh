@@ -10,5 +10,8 @@ namespace QuanLyTuyenSinh.Client.Services.SinhvienServices
         Task CreateThiSinh(ThiSinh thiSinh,List<AnhUpload> anhUploads,int userId);
         Task UpdateThiSinh(ThiSinh thiSinh, List<AnhUpload> anhUploads,int userId);
         Task DeleteThiSinh(int id);
+        Task GetChartData();
+
+        double[] data { get; set; }
     }
 }

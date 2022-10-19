@@ -15,6 +15,7 @@ namespace QuanLyTuyenSinh.Client.Services.SinhvienServices
             _navigationManager = navigationManager;
         }
         public List<ThiSinh> thisinhs { get; set; } = new List<ThiSinh>();
+        public double[] data { get; set; } = new double[3];
         public HttpClient Http { get; }
 
         public async Task CreateThiSinh(ThiSinh thiSinh,List<AnhUpload> anhUploads,int userId)
@@ -65,7 +66,14 @@ namespace QuanLyTuyenSinh.Client.Services.SinhvienServices
                 var result = await _http.PutAsync($"api/thisinh/{thiSinh.Id}", content);
                 await SetThiSinhssr(result);
             }
-                
+        }
+
+        public async Task GetChartData()
+        {
+            var result = await _http.GetFromJsonAsync<double[]>("api/thisinh/data");
+            if (result != null)
+                data = result;
+
         }
     }
 }

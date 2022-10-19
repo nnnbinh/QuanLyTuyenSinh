@@ -1,15 +1,27 @@
 ﻿@page "/"
+@inject HttpClient Http
+@inject ISinhvientrungtuyen Sinhvientrungtuyen
+@inject NavigationManager NavigationManager
+@attribute [Authorize]
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Tuyển sinh VIDO</PageTitle>
 
-<h1>Hello, world!</h1>
-
-<MudText Typo="Typo.h5" >RED </MudText>
+<MudText Typo="Typo.h5" >Biểu đồ thí sinh </MudText>
 <MudChart ChartType="ChartType.Pie" InputData="@data" InputLabels="@label" Width="850" Height="350" LegendPosition="Position.Bottom"></MudChart>
 
 @code{
 
-    double[] data = { 1100, 650, 1700 };
-    string[] label = { "Red","Blue","Green"};
+    double[] data = new double[3];
+    string[] label = { "Pending","Accepted","Rejected"};
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Sinhvientrungtuyen.GetChartData();
+        if (Sinhvientrungtuyen != null)
+        {
+            data = Sinhvientrungtuyen.data;
+        }
+
+    }
 
 }
